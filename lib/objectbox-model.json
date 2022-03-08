@@ -1,0 +1,57 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:481598931167768159",
+      "lastPropertyId": "6:9148510262302583949",
+      "name": "Caderno",
+      "properties": [
+        {
+          "id": "1:1493057244385271016",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:720206587549360851",
+          "name": "titulo",
+          "type": 9
+        },
+        {
+          "id": "3:670048269113432821",
+          "name": "topicos",
+          "type": 9
+        },
+        {
+          "id": "4:1719506753434489778",
+          "name": "anotacoes",
+          "type": 9
+        },
+        {
+          "id": "5:6534849393652603556",
+          "name": "sumario",
+          "type": 9
+        },
+        {
+          "id": "6:9148510262302583949",
+          "name": "atualizadoEm",
+          "type": 10
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "1:481598931167768159",
+  "lastIndexId": "0:0",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

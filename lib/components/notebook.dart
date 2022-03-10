@@ -1,12 +1,11 @@
 import 'package:cornell_notes/form.dart';
+import 'package:cornell_notes/models.dart';
 import 'package:flutter/material.dart';
 
 class Notebook extends StatefulWidget {
-  final int id;
-  final String rotulo;
+  final Caderno caderno;
 
-  const Notebook({Key? key, required this.id, required this.rotulo})
-      : super(key: key);
+  const Notebook({Key? key, required this.caderno}) : super(key: key);
 
   @override
   _NotebookState createState() => _NotebookState();
@@ -29,7 +28,7 @@ class _NotebookState extends State<Notebook> {
             borderRadius: BorderRadius.horizontal(right: Radius.circular(10.0)),
           ),
           child: Text(
-            widget.rotulo,
+            widget.caderno.titulo ?? '--',
             style: const TextStyle(
               color: Colors.white,
               fontSize: 13,
@@ -38,12 +37,14 @@ class _NotebookState extends State<Notebook> {
         ),
       ),
       onTap: () {
-        print('TAP EM ${widget.id} - ${widget.rotulo}');
+        // print('TAP EM ${widget.id} - ${widget.rotulo}');
       },
       onDoubleTap: () {
-        print('DOUBLE TAP EM ${widget.id} - ${widget.rotulo}');
+        // print('DOUBLE TAP EM ${widget.id} - ${widget.rotulo}');
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => NoteForm()));
+            context,
+            MaterialPageRoute(
+                builder: (context) => NoteForm(caderno: widget.caderno)));
       },
     );
   }

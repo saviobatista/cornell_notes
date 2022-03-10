@@ -22,7 +22,10 @@ class ObjectBox {
   }
 
   static Future<ObjectBox> create() async {
-    final store = await openStore();
+    final store = await openStore(
+      //macosApplicationGroup: 'ZWNG9622DW.cornellNotes',
+      macosApplicationGroup: 'ZWNG9622DW.com.saviobatista',
+    );
     return ObjectBox._create(store);
   }
 

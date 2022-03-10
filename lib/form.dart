@@ -1,10 +1,14 @@
+import 'package:cornell_notes/main.dart';
 import 'package:cornell_notes/ui/painter/notebook_painter.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cornell_notes/const.dart';
+import 'package:cornell_notes/models.dart';
 
 class NoteForm extends StatefulWidget {
-  const NoteForm({Key? key}) : super(key: key);
+  const NoteForm({Key? key, this.caderno}) : super(key: key);
+
+  final Caderno? caderno;
 
   @override
   _NoteFormState createState() => _NoteFormState();
@@ -12,7 +16,26 @@ class NoteForm extends StatefulWidget {
 
 class _NoteFormState extends State<NoteForm> {
   final _focusTitulo = FocusNode();
-  final _controlTitulo = TextEditingController(text: 'Caderno/Folha');
+  final _titulo = TextEditingController(text: 'Caderno/Folha');
+  final _sumario = TextEditingController();
+  final _topicos = TextEditingController();
+  final _anotacoes = TextEditingController();
+  late int? _id;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.caderno != null) {
+      _sumario.text = widget.caderno!.sumario!;
+      _titulo.text = widget.caderno!.titulo!;
+      _topicos.text = widget.caderno!.topicos!;
+      _anotacoes.text = widget.caderno!.anotacoes!;
+      _id = widget.caderno!.id;
+    } else {
+      _id = null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,19 +43,31 @@ class _NoteFormState extends State<NoteForm> {
         centerTitle: true,
         title: TextField(
           focusNode: _focusTitulo,
-          controller: _controlTitulo,
+          controller: _titulo,
           style: Theme.of(context).textTheme.headline4!.copyWith(
                 color: Colors.white,
                 fontFamily: 'PatrickHand',
               ),
           textAlign: TextAlign.center,
           cursorColor: Colors.white,
-          onTap: () => _controlTitulo.selection = TextSelection(
-              baseOffset: 0, extentOffset: _controlTitulo.text.length),
+          onTap: () => _titulo.selection =
+              TextSelection(baseOffset: 0, extentOffset: _titulo.text.length),
         ),
         actions: [
           TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Caderno caderno = Caderno(
+                  _titulo.text,
+                  anotacoes: _anotacoes.text,
+                  sumario: _sumario.text,
+                  topicos: _topicos.text,
+                );
+                if (_id != null) {
+                  caderno.id = _id!;
+                }
+                objectBox.cadernoBox.put(caderno);
+                Navigator.of(context).pop();
+              },
               child: const Icon(
                 Icons.save,
                 color: Colors.white,
@@ -57,16 +92,11 @@ class _NoteFormState extends State<NoteForm> {
                           children: [
                             Text(
                               'Tópicos',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline5!
-                                  .copyWith(
-                                    fontFamily: 'PatrickHand',
-                                  ),
+                              style: Theme.of(context).textTheme.headline5,
                             ),
                             Expanded(
                               child: TextField(
-                                controller: TextEditingController(text: ''),
+                                controller: _topicos,
                                 minLines: null,
                                 maxLines: null,
                                 expands: true,
@@ -98,9 +128,7 @@ class _NoteFormState extends State<NoteForm> {
                                     top: notebookLineSize - 7,
                                   ),
                                   child: TextField(
-                                    controller: TextEditingController(
-                                        text:
-                                            'slakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflk slakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflk slakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflk slakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflk slakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflkslakfhaslkf aslkfhaslfkashf lkashf aslkf halskfh aslfkha sflkahsf lsakhf aslkfh aslkfhaslfkashflk'),
+                                    controller: _anotacoes,
                                     minLines: null,
                                     maxLines: null,
                                     expands: true,
@@ -109,8 +137,7 @@ class _NoteFormState extends State<NoteForm> {
                                       border: InputBorder.none,
                                       enabledBorder: InputBorder.none,
                                     ),
-                                    style: TextStyle(
-                                      fontFamily: 'PatrickHand',
+                                    style: const TextStyle(
                                       fontSize: notebookLineSize - 6.5,
                                     ),
                                   ),
@@ -127,12 +154,10 @@ class _NoteFormState extends State<NoteForm> {
                 child: Column(
                   children: [
                     Text('Sumário',
-                        style: Theme.of(context).textTheme.headline5!.copyWith(
-                              fontFamily: 'PatrickHand',
-                            )),
+                        style: Theme.of(context).textTheme.headline5),
                     Expanded(
                       child: TextField(
-                        controller: TextEditingController(text: ''),
+                        controller: _sumario,
                         minLines: null,
                         maxLines: null,
                         expands: true,

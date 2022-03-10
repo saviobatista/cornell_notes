@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cornell_notes/form.dart';
 import 'package:cornell_notes/models.dart';
 import 'package:cornell_notes/store.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +61,8 @@ class _HomeState extends State<Home> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
-          print('adicionou');
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => NoteForm()));
         },
       ),
       body: SafeArea(
@@ -80,18 +82,24 @@ class _HomeState extends State<Home> {
           Expanded(
             child: StreamBuilder<List<Caderno>>(
                 stream: _listController.stream,
-                builder: (context, snapshot) => GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                              maxCrossAxisExtent: 150,
-                              childAspectRatio: 3 / 2,
-                              crossAxisSpacing: 20,
-                              mainAxisSpacing: 20),
-                      itemBuilder: (context, idx) => Notebook(
-                        id: snapshot.data![idx].id,
-                        rotulo: snapshot.data![idx].titulo ?? '--',
-                      ),
-                    )),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) return Text(snapshot.error.toString());
+                  if (!snapshot.hasData) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  return GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 150,
+                            childAspectRatio: 3 / 2,
+                            crossAxisSpacing: 20,
+                            mainAxisSpacing: 20),
+                    itemCount: snapshot.data?.length,
+                    itemBuilder: (context, idx) => Notebook(
+                      caderno: snapshot.data![idx],
+                    ),
+                  );
+                }),
           ),
         ]),
       ),

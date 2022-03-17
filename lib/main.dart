@@ -23,7 +23,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'PatrickHand',
         primarySwatch: Colors.brown,
-        textSelectionTheme: TextSelectionThemeData(selectionColor: Colors.grey),
+        textSelectionTheme:
+            const TextSelectionThemeData(selectionColor: Colors.grey),
       ),
       home: const Home(),
     );
@@ -62,7 +63,7 @@ class _HomeState extends State<Home> {
         child: const Icon(Icons.add),
         onPressed: () {
           Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => NoteForm()));
+              .push(MaterialPageRoute(builder: (context) => const NoteForm()));
         },
       ),
       body: SafeArea(

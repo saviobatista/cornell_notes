@@ -38,6 +38,49 @@ class _NoteFormState extends State<NoteForm> {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> actions = [
+      TextButton(
+        child: const Icon(
+          Icons.save,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          Caderno caderno = Caderno(
+            _titulo.text,
+            anotacoes: _anotacoes.text,
+            sumario: _sumario.text,
+            topicos: _topicos.text,
+          );
+          if (_id != null) {
+            caderno.id = _id!;
+          }
+          objectBox.cadernoBox.put(caderno);
+          Navigator.of(context).pop();
+        },
+      ),
+    ];
+    if (_id != null) {
+      actions.add(TextButton(
+        child: const Icon(
+          Icons.delete,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          objectBox.cadernoBox.remove(_id!);
+          Caderno caderno = Caderno(
+            _titulo.text,
+            anotacoes: _anotacoes.text,
+            sumario: _sumario.text,
+            topicos: _topicos.text,
+          );
+          if (_id != null) {
+            caderno.id = _id!;
+          }
+          objectBox.cadernoBox.put(caderno);
+          Navigator.of(context).pop();
+        },
+      ));
+    }
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -53,26 +96,7 @@ class _NoteFormState extends State<NoteForm> {
           onTap: () => _titulo.selection =
               TextSelection(baseOffset: 0, extentOffset: _titulo.text.length),
         ),
-        actions: [
-          TextButton(
-              onPressed: () {
-                Caderno caderno = Caderno(
-                  _titulo.text,
-                  anotacoes: _anotacoes.text,
-                  sumario: _sumario.text,
-                  topicos: _topicos.text,
-                );
-                if (_id != null) {
-                  caderno.id = _id!;
-                }
-                objectBox.cadernoBox.put(caderno);
-                Navigator.of(context).pop();
-              },
-              child: const Icon(
-                Icons.save,
-                color: Colors.white,
-              ))
-        ],
+        actions: actions,
       ),
       body: SafeArea(
         child: Padding(
@@ -100,9 +124,10 @@ class _NoteFormState extends State<NoteForm> {
                                 minLines: null,
                                 maxLines: null,
                                 expands: true,
-                                decoration:
-                                    InputDecoration(hintText: 'Lorem ipsum'),
-                                style: TextStyle(fontSize: notebookLineSize),
+                                decoration: const InputDecoration(
+                                    hintText: 'Lorem ipsum'),
+                                style:
+                                    const TextStyle(fontSize: notebookLineSize),
                               ),
                             ),
                           ],
@@ -161,7 +186,8 @@ class _NoteFormState extends State<NoteForm> {
                         minLines: null,
                         maxLines: null,
                         expands: true,
-                        decoration: InputDecoration(hintText: 'Lorem ipsum'),
+                        decoration:
+                            const InputDecoration(hintText: 'Lorem ipsum'),
                       ),
                     ),
                   ],

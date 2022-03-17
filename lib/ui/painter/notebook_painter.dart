@@ -6,19 +6,19 @@ class NotebookPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     //Step 1
     final paintgrey = Paint()..color = Colors.grey;
-    var rrectRed =
-        RRect.fromLTRBR(0, 0, size.width, size.height, Radius.circular(8.0));
+    var rrectRed = RRect.fromLTRBR(
+        0, 0, size.width, size.height, const Radius.circular(8.0));
     canvas.drawRRect(rrectRed, paintgrey);
     //Step 2
     final paintwhite = Paint()..color = Colors.white;
-    var rrectWhite =
-        RRect.fromLTRBR(5, 0, size.width, size.height, Radius.circular(8.0));
+    var rrectWhite = RRect.fromLTRBR(
+        5, 0, size.width, size.height, const Radius.circular(8.0));
     canvas.drawRRect(rrectWhite, paintwhite);
     //Step 3
     final paintdarkgrey = Paint()
       ..color = Colors.blueGrey
       ..strokeWidth = 1.0;
-    final lineHeight = notebookLineSize;
+    const lineHeight = notebookLineSize;
     for (int i = 1; i < size.height / lineHeight; i++) {
       canvas.drawLine(
         Offset(5, (i * lineHeight).toDouble()),
@@ -29,14 +29,8 @@ class NotebookPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(NotebookPainter oldDelegate) {
-    //TODO Implement shouldrepait
-    return true;
-  }
+  bool shouldRepaint(NotebookPainter oldDelegate) => true;
 
   @override
-  bool shouldRebuildSemantics(NotebookPainter oldDelegate) {
-    //TODO Implement shouldrebuildsemantics
-    return true;
-  }
+  bool shouldRebuildSemantics(NotebookPainter oldDelegate) => true;
 }

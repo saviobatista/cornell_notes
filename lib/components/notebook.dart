@@ -1,11 +1,13 @@
+import 'package:cornell_notes/dao/caderno_dao.dart';
 import 'package:cornell_notes/form.dart';
-import 'package:cornell_notes/models.dart';
+import 'package:cornell_notes/entity/caderno.dart';
 import 'package:flutter/material.dart';
 
 class Notebook extends StatefulWidget {
+  final CadernoDao dao;
   final Caderno caderno;
 
-  const Notebook({Key? key, required this.caderno}) : super(key: key);
+  const Notebook(this.dao, {Key? key, required this.caderno}) : super(key: key);
 
   @override
   _NotebookState createState() => _NotebookState();
@@ -44,7 +46,8 @@ class _NotebookState extends State<Notebook> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => NoteForm(caderno: widget.caderno)));
+                builder: (context) =>
+                    NoteForm(widget.dao, caderno: widget.caderno)));
       },
     );
   }

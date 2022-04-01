@@ -8,14 +8,14 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  objectbox: ^1.4.1
-  objectbox_flutter_libs: any
+  floor: ^1.2.0
 dev_dependencies:
+  test:
   flutter_test:
     sdk: flutter
   flutter_lints: ^1.0.0
-  build_runner: ^2.0.0
-  objectbox_generator: any
+  floor_generator: ^1.2.0
+  build_runner: ^2.1.2
 flutter:
   uses-material-design: true
   fonts:

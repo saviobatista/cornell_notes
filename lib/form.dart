@@ -1,13 +1,13 @@
-import 'package:cornell_notes/main.dart';
+import 'package:cornell_notes/dao/caderno_dao.dart';
 import 'package:cornell_notes/ui/painter/notebook_painter.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cornell_notes/const.dart';
-import 'package:cornell_notes/models.dart';
+import 'package:cornell_notes/entity/caderno.dart';
 
 class NoteForm extends StatefulWidget {
-  const NoteForm({Key? key, this.caderno}) : super(key: key);
-
+  const NoteForm(this.dao, {Key? key, this.caderno}) : super(key: key);
+  final CadernoDao dao;
   final Caderno? caderno;
 
   @override
@@ -46,15 +46,14 @@ class _NoteFormState extends State<NoteForm> {
         ),
         onPressed: () {
           Caderno caderno = Caderno(
+            _id,
             _titulo.text,
-            anotacoes: _anotacoes.text,
-            sumario: _sumario.text,
-            topicos: _topicos.text,
+            _anotacoes.text,
+            _sumario.text,
+            _topicos.text,
+            DateTime.now().toString(),
           );
-          if (_id != null) {
-            caderno.id = _id!;
-          }
-          objectBox.cadernoBox.put(caderno);
+          widget.dao.insertCaderno(caderno);
           Navigator.of(context).pop();
         },
       ),
@@ -66,17 +65,7 @@ class _NoteFormState extends State<NoteForm> {
           color: Colors.white,
         ),
         onPressed: () {
-          objectBox.cadernoBox.remove(_id!);
-          Caderno caderno = Caderno(
-            _titulo.text,
-            anotacoes: _anotacoes.text,
-            sumario: _sumario.text,
-            topicos: _topicos.text,
-          );
-          if (_id != null) {
-            caderno.id = _id!;
-          }
-          objectBox.cadernoBox.put(caderno);
+          widget.dao.deleteCaderno(widget.caderno!);
           Navigator.of(context).pop();
         },
       ));
@@ -85,6 +74,7 @@ class _NoteFormState extends State<NoteForm> {
       appBar: AppBar(
         centerTitle: true,
         title: TextField(
+          key: const Key('titulo'),
           focusNode: _focusTitulo,
           controller: _titulo,
           style: Theme.of(context).textTheme.headline4!.copyWith(

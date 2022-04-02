@@ -23,6 +23,7 @@ class CornellNotes extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Cornell Notes',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'PatrickHand',
         primarySwatch: Colors.brown,
@@ -53,6 +54,15 @@ class _HomeState extends State<Home> {
         onPressed: () {
           Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => NoteForm(widget.dao)));
+          // showAboutDialog(
+          //   context: context,
+          //   applicationName: 'Cornell Notes',
+          //   applicationVersion: '0.0.1',
+          //   children: [
+          //     Text('Lorem ipsum dolor sit amet quae sisat der meat.'),
+          //   ],
+          //   applicationLegalese: 'Check some legal text here',
+          // );
         },
       ),
       body: SafeArea(

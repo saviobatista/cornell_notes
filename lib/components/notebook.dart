@@ -1,3 +1,4 @@
+import 'package:cornell_notes/components/printed_notebook.dart';
 import 'package:cornell_notes/dao/caderno_dao.dart';
 import 'package:cornell_notes/form.dart';
 import 'package:cornell_notes/entity/caderno.dart';
@@ -29,12 +30,39 @@ class _NotebookState extends State<Notebook> {
             color: Colors.brown,
             borderRadius: BorderRadius.horizontal(right: Radius.circular(10.0)),
           ),
-          child: Text(
-            widget.caderno.titulo ?? '--',
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 13,
-            ),
+          child: Column(
+            children: [
+              Expanded(
+                child: Text(
+                  widget.caderno.titulo ?? '--',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: onDelete,
+                    child: const Icon(
+                      Icons.delete,
+                      color: Colors.white,
+                      size: 18.0,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: onPrint,
+                    child: const Icon(
+                      Icons.print,
+                      color: Colors.white,
+                      size: 18.0,
+                    ),
+                  ),
+                ],
+              )
+            ],
           ),
         ),
       ),
@@ -50,5 +78,34 @@ class _NotebookState extends State<Notebook> {
                     NoteForm(widget.dao, caderno: widget.caderno)));
       },
     );
+  }
+
+  void onDelete() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Excluir Caderno'),
+            content: const Text('Deseja realmente excluir este caderno?'),
+            actions: [
+              TextButton(
+                child: const Text('Não'),
+                onPressed: () => Navigator.pop(context),
+              ),
+              TextButton(
+                child: const Text('Sim'),
+                onPressed: () {
+                  widget.dao.deleteCaderno(widget.caderno);
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  void onPrint() {
+    final printer = PrintedNotebook(widget.caderno);
+    printer.print();
   }
 }

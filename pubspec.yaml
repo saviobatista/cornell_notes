@@ -9,6 +9,9 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   floor: ^1.2.0
+  pdf: ^3.7.3
+  printing: ^5.7.5
+
 dev_dependencies:
   test:
   flutter_test:
